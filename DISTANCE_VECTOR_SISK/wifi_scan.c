@@ -11,6 +11,7 @@
 
 // Local
 #include "layout.h"
+#include "math.h"
 #include "wifi_scan.h"
 
 bool pidogs_found;
@@ -40,8 +41,20 @@ bool id_is_not_a_repeat(uint64_t id)
 // TODO : Make cost a function of RSSI
 int cost_from_rssi(int rssi)
 {
-    // Distance cost - currently a random rumber between 1 and 10
-    return 1 + (rand() % 10);
+    // Log-distance path loss model parameters
+    // Reference RSSI at 1 meter (typical values: -30 to -50 dBm)
+    const int REF_RSSI = -40;  // Adjust based on your environment
+    // Path loss exponent (2 for free space, 2.7-3.5 for urban areas, 4+ for dense environments)
+    const double PATH_LOSS_EXPONENT = 2.5;
+    
+    // Calculate distance using the log-distance path loss model
+    // RSSI = REF_RSSI - 10 * n * log10(d/d0)
+    // Rearranged: d = d0 * 10^((REF_RSSI - RSSI) / (10 * n))
+    
+    double distance = 1.0 * pow(10.0, (REF_RSSI - rssi) / (10.0 * PATH_LOSS_EXPONENT));
+    
+    // Return integer meters (round to nearest integer)
+    return (int)(distance + 0.5);
 }
 
 // Scan callback function for neighbor finding
