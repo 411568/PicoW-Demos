@@ -82,14 +82,12 @@ bool update_dist_vector_by_nbr_id(node_t* n, int nbr_ID)
 
     // Check for a new shortest path to each node
     for (int id = 0; id < MAX_NODES; id++) {
-        int curr_dist = n->dist_vector[id];
-        int new_dist  = nb->cost + nb->dist_vector[id];
+        //& SISK LAB
+        // TODO
 
         if (new_dist < curr_dist) {
-            my_dv_updated = true;
-
-            n->dist_vector[id]   = new_dist;
-            n->routing_table[id] = nb->ID;
+            //& SISK LAB
+            // TODO
 
             printf("New dist to node %d through %d:\n", id, nbr_ID);
             printf("\tself.dist_vector[%d]: %d --> %d\n", id, curr_dist,
