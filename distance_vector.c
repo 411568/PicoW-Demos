@@ -86,6 +86,7 @@ bool update_dist_vector_by_nbr_id(node_t* n, int nbr_ID)
         // TODO
 
         if (new_dist < curr_dist) {
+            my_dv_updated = true;
             //& SISK LAB
             // TODO
 
